@@ -5,7 +5,10 @@ import ProjectShowcase from "@/components/ProjectShowcase";
 
 async function getAllProjects() {
   await dbConnect();
-  const projects = await Project.find({}).sort({ createdAt: -1 }).lean();
+  const projects = await Project.find({})
+    .select("-image")
+    .sort({ createdAt: -1 })
+    .lean();
   return projects.map((p) => ({
     ...p,
     _id: p._id.toString(),

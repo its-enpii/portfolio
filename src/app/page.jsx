@@ -13,6 +13,7 @@ async function getFeaturedProjects() {
   await dbConnect();
   // Fetch featured projects, limit to 3, sort by newest
   const projects = await Project.find({ featured: true })
+    .select("-image")
     .sort({ createdAt: -1 })
     .lean();
   return projects.map((p) => ({

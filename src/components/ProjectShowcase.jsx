@@ -85,7 +85,13 @@ export default function ProjectShowcase({ projects }) {
               >
                 <div className="absolute inset-0 bg-brand-primary/10 group-hover:bg-transparent transition-colors duration-500 z-10" />
                 <img
-                  src={project.image}
+                  src={
+                    project.image ||
+                    (project._id
+                      ? `/api/projects/${project._id}/image`
+                      : null) ||
+                    "https://placehold.co/800x600/e2e8f0/cbd5e1?text=No+Image"
+                  }
                   alt={project.title}
                   className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700 ease-out"
                 />

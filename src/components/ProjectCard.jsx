@@ -31,6 +31,7 @@ export default function ProjectCard({
         <img
           src={
             project.image ||
+            (project._id ? `/api/projects/${project._id}/image` : null) ||
             "https://placehold.co/800x600/e2e8f0/cbd5e1?text=No+Image"
           }
           alt={project.title}

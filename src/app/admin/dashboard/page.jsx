@@ -10,7 +10,10 @@ import OptimizeDatabase from "@/components/admin/OptimizeDatabase";
 async function getProjects() {
   await dbConnect();
   // Plain JS objects for serialization
-  const projects = await Project.find({}).sort({ createdAt: -1 }).lean();
+  const projects = await Project.find({})
+    .select("-image")
+    .sort({ createdAt: -1 })
+    .lean();
   return projects.map((p) => ({
     ...p,
     _id: p._id.toString(),

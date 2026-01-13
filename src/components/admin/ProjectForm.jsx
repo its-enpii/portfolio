@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Save, X, Loader2, Upload, XCircle } from "lucide-react";
-import ProjectCard from "@/components/ProjectCard"; // Make sure this path is correct based on previous step
+import ProjectCard from "@/components/ProjectCard";
+import { compressImage } from "@/utils/compressImage";
 
 const ProjectForm = ({ project = null }) => {
   const router = useRouter();
@@ -33,19 +34,24 @@ const ProjectForm = ({ project = null }) => {
     }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        // 2MB Limit
-        alert("Image size too large. Please choose an image under 2MB.");
+      if (file.size > 5 * 1024 * 1024) {
+        alert("Image size too large. Please choose an image under 5MB.");
         return;
       }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, image: reader.result }));
-      };
-      reader.readAsDataURL(file);
+
+      setLoading(true); // Show loading while compressing
+      try {
+        const compressedBase64 = await compressImage(file);
+        setFormData((prev) => ({ ...prev, image: compressedBase64 }));
+      } catch (err) {
+        console.error("Compression error:", err);
+        alert("Failed to compress image");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 

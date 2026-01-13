@@ -5,6 +5,7 @@ import Project from "@/models/Project";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import DeleteProjectButton from "@/components/admin/DeleteProjectButton";
+import OptimizeDatabase from "@/components/admin/OptimizeDatabase";
 
 async function getProjects() {
   await dbConnect();
@@ -36,12 +37,15 @@ export default async function Dashboard() {
           </div>
         </div>
 
-        <Link
-          href="/admin/projects/new"
-          className="flex items-center gap-2 px-6 py-3 bg-brand-primary text-white rounded-xl font-bold hover:bg-brand-dark transition-colors shadow-lg w-full md:w-auto justify-center"
-        >
-          <Plus size={20} /> New Project
-        </Link>
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <OptimizeDatabase projects={projects} />
+          <Link
+            href="/admin/projects/new"
+            className="flex items-center gap-2 px-6 py-3 bg-brand-primary text-white rounded-xl font-bold hover:bg-brand-dark transition-colors shadow-lg justify-center flex-1 md:flex-none"
+          >
+            <Plus size={20} /> New Project
+          </Link>
+        </div>
       </div>
 
       <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 overflow-x-auto">

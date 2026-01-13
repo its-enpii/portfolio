@@ -2,6 +2,7 @@ import dbConnect from "@/lib/db";
 import Project from "@/models/Project";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 export async function GET() {
   await dbConnect();
@@ -26,6 +27,8 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const project = await Project.create(body);
+    revalidatePath("/");
+    revalidatePath("/projects");
     return NextResponse.json({ success: true, data: project }, { status: 201 });
   } catch (error) {
     return NextResponse.json(

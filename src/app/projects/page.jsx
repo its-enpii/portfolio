@@ -1,4 +1,5 @@
 import dbConnect from "@/lib/db";
+export const dynamic = "force-dynamic";
 import Project from "@/models/Project";
 import ProjectShowcase from "@/components/ProjectShowcase";
 

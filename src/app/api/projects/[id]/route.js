@@ -2,6 +2,7 @@ import dbConnect from "@/lib/db";
 import Project from "@/models/Project";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 // GET a single project by ID
 export async function GET(req, { params }) {
@@ -45,6 +46,8 @@ export async function PUT(req, { params }) {
         { status: 404 }
       );
     }
+    revalidatePath("/");
+    revalidatePath("/projects");
     return NextResponse.json({ success: true, data: project });
   } catch (error) {
     return NextResponse.json(
@@ -71,6 +74,8 @@ export async function DELETE(req, { params }) {
         { status: 404 }
       );
     }
+    revalidatePath("/");
+    revalidatePath("/projects");
     return NextResponse.json({ success: true, data: {} });
   } catch (error) {
     return NextResponse.json(

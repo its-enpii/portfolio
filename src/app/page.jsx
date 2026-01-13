@@ -14,7 +14,6 @@ async function getFeaturedProjects() {
   // Fetch featured projects, limit to 3, sort by newest
   const projects = await Project.find({ featured: true })
     .sort({ createdAt: -1 })
-    .limit(3)
     .lean();
   return projects.map((p) => ({
     ...p,
